@@ -17,7 +17,7 @@ def draw(coordinate_list):
     glLineWidth(2)
     glBegin(GL_POLYGON)
     for i in coordinate_list:
-        glVertex2f(*i)
+        glVertex2f(i)
     glEnd()
     glutSwapBuffers()
 
