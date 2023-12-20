@@ -11,7 +11,7 @@ def init():
 
 
 def plotpolygon(sides):
-    glClear(GL_COLOR_BUFFER_BIT)
+    glClear(GL_COLOR_BUFFER_BIT)  # Reset the modelview matrix
     glLineWidth(2)
     glBegin(GL_LINES)
     for i in range(len(sides)):
@@ -20,28 +20,43 @@ def plotpolygon(sides):
         glVertex2f(x1, y1)
         glVertex2f(x2, y2)
     glEnd()
+    glFlush()
 
 
 def drawtrans(sides, tx, ty):
     newsides = []
     for i in sides:
         newsides.append([i[0] + tx, i[1] + ty])
-    glColor3f(0, 0, 1)
+    glColor3f(1, 1, 1)
     plotpolygon(sides)  # Draw the original polygon
     glColor3f(1, 0, 1)
     plotpolygon(newsides)  # Draw the translated polygon
-    glFlush()  # Swap the buffers after drawing both polygons
+    # Swap the buffers after drawing both polygons
 
 
 def drawscale(sides, tx, ty, px, py):
     newsides = []
     for i in sides:
         newsides.append([(i[0] - px) * tx + px, (i[1] - py) * ty + py])
-    glColor3f(1, 0, 1)
+    glColor3f(0, 0, 1)
     plotpolygon(newsides)
-    glColor3f(1, 1, 1)
+    glColor3f(1, 0, 1)
     plotpolygon(sides)
     glFlush()
+
+
+def drawrotate(sides, tx, ty):
+    newsides = []
+    for i in sides:
+        newsides.append(
+            [
+                round(
+                    (i[0] - tx) * math.cos(theta) - (i[1] - ty) * math.sin(theta) + tx,
+                    (i[0] - tx) * math.sin(theta)
+                    + ((i[1] - ty) * math.cos(theta) + ty),
+                )
+            ]
+        )
 
 
 # Swap the buffers after drawing both polygons
@@ -54,7 +69,7 @@ def main():
     glutInitWindowPosition(600, 0)
     glutInitDisplayMode(GLUT_RGBA)
     glutCreateWindow("SAMPLE")
-    glutDisplayFunc(lambda: drawscale(sides, 2, 2, 0, 0))
+    glutDisplayFunc(lambda: drawtrans(sides, 10, 10))
     init()
     glutMainLoop()
 
