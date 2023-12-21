@@ -1,36 +1,47 @@
 from OpenGL.GL import *
 from OpenGL.GLU import *
 from OpenGL.GLUT import *
-
-X = -200
-Y = 0
+import math
 
 
 def init():
-    glClearColor(0, 0, 0, 1)
     gluOrtho2D(-300, 300, -300, 300)
+    glClearColor(0, 0, 0, 1)
 
 
 def draw():
-    global X, Y
-    glClear(GL_COLOR_BUFFER_BIT)  # Corrected spelling here
-    glColor3f(0, 1, 0)
-    glLineWidth(2)
-    glBegin(GL_QUADS)
-    glVertex2f(X, Y)
-    glVertex2f(X + 50, Y)
-    glVertex2f(X + 50, Y + 50)
-    glVertex2f(X, Y + 50)
+    glClear(GL_COLOR_BUFFER_BIT)
+    glLineWidth(7)
+
+    # First figure
+    glColor3f(1, 0, 1)
+    glBegin(GL_LINES)
+    for i in range(70, 290):
+        theta = math.radians(i)
+        x = 100 * math.cos(theta)
+        y = 100 * math.sin(theta)
+        glVertex2f(x, y)
     glEnd()
-    glutSwapBuffers()
+
+    # Second figure
+    glColor3f(1, 0, 1)
+    glBegin(GL_LINES)
+    for i in range(70, 290):
+        theta = math.radians(i)
+        x = 100 * math.cos(theta)
+        y = 100 * math.sin(theta) - 200
+        glVertex2f(-x, y)
+    glEnd()
+
+    glFlush()
 
 
 def main():
     glutInit(sys.argv)
-    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA)  # Use flags for display mode
+    glutInitDisplayMode(GLUT_RGBA)
     glutInitWindowSize(500, 500)
     glutInitWindowPosition(600, 0)
-    glutCreateWindow("QUADRILATERAL")
+    glutCreateWindow("S")
     glutDisplayFunc(lambda: draw())
     init()
     glutMainLoop()
