@@ -11,7 +11,6 @@ def init():
 
 
 def plotpolygon(sides):
-    glClear(GL_COLOR_BUFFER_BIT)  # Reset the modelview matrix
     glLineWidth(2)
     glBegin(GL_LINES)
     for i in range(len(sides)):
@@ -27,7 +26,8 @@ def drawtrans(sides, tx, ty):
     newsides = []
     for i in sides:
         newsides.append([i[0] + tx, i[1] + ty])
-    glColor3f(1, 1, 1)
+    glClear(GL_COLOR_BUFFER_BIT)  # Reset the modelview matrix
+    glColor3f(1, 1, 0)
     plotpolygon(sides)  # Draw the original polygon
     glColor3f(1, 0, 1)
     plotpolygon(newsides)  # Draw the translated polygon
@@ -69,7 +69,7 @@ def main():
     glutInitWindowPosition(600, 0)
     glutInitDisplayMode(GLUT_RGBA)
     glutCreateWindow("SAMPLE")
-    glutDisplayFunc(lambda: drawtrans(sides, 10, 10))
+    glutDisplayFunc(lambda: drawtrans(sides, 100, 100))
     init()
     glutMainLoop()
 
