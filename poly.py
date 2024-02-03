@@ -22,7 +22,7 @@ def draw(coordinate_list):
 def main():
     n = int(input("Enter number of sides"))
     sides = []
-    for i in range(1, n + 1):
+    for i in range(1, n + 1, 1):
         x = int(input("Enter x coordinate: "))
         y = int(input("Enter y coordinate: "))
         sides.append([x, y])
