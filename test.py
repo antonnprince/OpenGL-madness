@@ -13,7 +13,7 @@ def draw():
     glClear(GL_COLOR_BUFFER_BIT)
     glLineWidth(2)
     glColor3f(1, 0, 1)
-    glBegin(GL_TRIANGLE_FAN)
+    glBegin(GL_POINTS)
     for i in range(0, 360):
         theta = math.radians(i)
         x = 50 * math.cos(i)
