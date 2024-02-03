@@ -2,9 +2,6 @@ from OpenGL.GL import *
 from OpenGL.GLU import *
 from OpenGL.GLUT import *
 
-X = -200
-Y = 0
-
 
 def init():
     gluOrtho2D(-300, 300, -300, 300)
