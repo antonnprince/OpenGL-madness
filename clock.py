@@ -28,7 +28,7 @@ def drawCircle(xc, yc, radius):
     glEnd()
 
 
-def drawHand(length, x, y):
+def drawHand(x, y):
     glLineWidth(POINT_SIZE)
     glColor3f(0, 0, 0)
     glBegin(GL_LINES)
@@ -43,7 +43,7 @@ def drawClock():
     glColor3f(0.46, 0.27, 0.18)
     drawCircle(0, 0, 400)
     for i in range(0, 3):
-        drawHand(LENGTH[i], ROTATE_X[i], ROTATE_Y[i])
+        drawHand(ROTATE_X[i], ROTATE_Y[i])
     glutSwapBuffers()
 
 
