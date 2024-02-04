@@ -2,76 +2,72 @@ from OpenGL.GL import *
 from OpenGL.GLU import *
 from OpenGL.GLUT import *
 import math
+import sys
+import random
+from pygame import mixer
 
-x_rotate = [0, 0, 0]
-y_rotate = [350, 300, 200]  # s,m,h
-length = [350, 300, 200]
-theta = [0, 0, 0]
+x = 0
+y = 0
+t = 0
+tr = 1
 
 
 def init():
-    gluOrtho2D(-600, 600, -600, 600)
-    glClearColor(1, 1, 1, 0)
+    gluOrtho2D(-300, 300, -300, 300)
+    glClearColor(0, 0, 0, 1)
 
 
-def drawCirc(xc, yc, radius):
-    theta = 0
+def drawcirc(q):
     glColor3f(1, 0, 1)
-    glBegin(GL_POINTS)
-    for i in range(0, 360):
-        theta = math.radians(i)
-        x = radius * math.cos(i)
-        y = radius * math.sin(i)
-        glVertex2f(x, y)
+    glLineWidth(2)
+    glBegin(GL_TRIANGLE_FAN)
+    for i in range(0, 361, 1):
+        glVertex2f(q + 20 * math.cos(math.radians(i)), 20 * math.sin(math.radians(i)))
     glEnd()
 
-
-def drawHand(x, y):
-    glLineWidth(5)
-    glColor3f(0, 0, 0)
+    glColor3f(1, 1, 1)
     glBegin(GL_LINES)
-    glVertex2f(0, 0)
-    glVertex2f(x, y)
+    glVertex2f(q + 20 * math.cos(math.radians(t)), 20 * math.sin(math.radians(t)))
+    glVertex2f(q - 20 * math.cos(math.radians(t)), -20 * math.sin(math.radians(t)))
     glEnd()
+    glutSwapBuffers()
 
 
-def clock():
+def squ():
+    global x, y
     glClear(GL_COLOR_BUFFER_BIT)
-    glPointSize(5)
-    glColor3f(1, 1, 0)
-    drawCirc(0, 0, 400)
-    for i in range(0, 3):
-        drawHand(x_rotate[i], y_rotate[i])
+    glColor3f(0, 1, 1)
+    glLineWidth(3)
+    glBegin(GL_QUADS)
+    glVertex2f(x, y)
+    glVertex2f(x + 100, y)
+    glVertex2f(x + 100, y + 60)
+    glVertex2f(x, y + 60)
+    glEnd()
+    drawcirc(x + 10)
+    drawcirc(x + 100)
     glutSwapBuffers()
 
 
 def animate(value):
     glutPostRedisplay()
-    glutTimerFunc(int(1000 / 60), animate, 0)
-    for i in range(0, 3):
-        x_rotate[i] = length[i] * math.sin(math.radians(theta[i]))
-        y_rotate[i] = length[i] * math.cos(math.radians(theta[i]))
-    if theta[0] > 360:
-        theta[0] = 0
-        theta[1] += 1
+    global x, t
+    if x < 500:
+        x += 1
+        t += 1
     else:
-        theta[0] += 0.098
-
-    if theta[1] > 360:
-        theta[1] = 0
-        theta[2] += 1
-
-    if theta[2] >= 360:
-        theta[2] = 0
+        x = 0
+    glutTimerFunc(int(1000 / 60), animate, 0)
 
 
 def main():
+    global x
     glutInit(sys.argv)
-    glutInitWindowSize(600, 600)
-    glutInitWindowPosition(0, 0)
     glutInitDisplayMode(GLUT_RGBA)
-    glutCreateWindow("clock")
-    glutDisplayFunc(clock)
+    glutInitWindowSize(500, 500)
+    glutInitWindowPosition(600, 0)
+    glutCreateWindow("WHEELS")
+    glutDisplayFunc(lambda: squ())
     glutTimerFunc(0, animate, 0)
     init()
     glutMainLoop()
