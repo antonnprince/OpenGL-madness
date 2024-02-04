@@ -1,73 +1,54 @@
 from OpenGL.GL import *
 from OpenGL.GLU import *
 from OpenGL.GLUT import *
-import math
 import sys
-import random
-from pygame import mixer
+import math
 
 x = 0
 y = 0
-t = 0
-tr = 1
+theta = 0
 
 
 def init():
-    gluOrtho2D(-300, 300, -300, 300)
+    gluOrtho2D(-400, 400, -400, 400)
     glClearColor(0, 0, 0, 1)
 
 
-def drawcirc(q):
-    glColor3f(1, 0, 1)
-    glLineWidth(2)
-    glBegin(GL_TRIANGLE_FAN)
-    for i in range(0, 361, 1):
-        glVertex2f(q + 20 * math.cos(math.radians(i)), 20 * math.sin(math.radians(i)))
-    glEnd()
-
-    glColor3f(1, 1, 1)
-    glBegin(GL_LINES)
-    glVertex2f(q + 20 * math.cos(math.radians(t)), 20 * math.sin(math.radians(t)))
-    glVertex2f(q - 20 * math.cos(math.radians(t)), -20 * math.sin(math.radians(t)))
-    glEnd()
-    glutSwapBuffers()
-
-
-def squ():
+def circle(xt, yt):
     global x, y
     glClear(GL_COLOR_BUFFER_BIT)
-    glColor3f(0, 1, 1)
     glLineWidth(3)
-    glBegin(GL_QUADS)
-    glVertex2f(x, y)
-    glVertex2f(x + 100, y)
-    glVertex2f(x + 100, y + 60)
-    glVertex2f(x, y + 60)
+    glColor3f(1, 0, 1)
+    glBegin(GL_TRIANGLE_FAN)
+    for i in range(0, 360, 1):
+        xc = 30 * math.cos(math.radians(i)) + xt
+        yc = 30 * math.sin(math.radians(i)) + yt
+        glVertex2f(xc, yc)
     glEnd()
-    drawcirc(x + 10)
-    drawcirc(x + 100)
-    glutSwapBuffers()
+    glFlush()
 
 
 def animate(value):
+    global x, y, theta
     glutPostRedisplay()
-    global x, t
-    if x < 500:
-        x += 1
-        t += 1
-    else:
-        x = 0
     glutTimerFunc(int(1000 / 60), animate, 0)
+    theta = theta + 1
+    x = 40 * math.sin(math.radians(theta))
+    y = -40 * math.cos(math.radians(theta))
+
+
+def display():
+    global x, y
+    circle(x, y)
 
 
 def main():
-    global x
     glutInit(sys.argv)
-    glutInitDisplayMode(GLUT_RGBA)
     glutInitWindowSize(500, 500)
-    glutInitWindowPosition(600, 0)
-    glutCreateWindow("WHEELS")
-    glutDisplayFunc(lambda: squ())
+    glutInitWindowPosition(0, 0)
+    glutInitDisplayMode(GLUT_RGB)
+    glutCreateWindow("solar")
+    glutDisplayFunc(display)
     glutTimerFunc(0, animate, 0)
     init()
     glutMainLoop()
