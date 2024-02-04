@@ -25,6 +25,10 @@ def circle(xt, yt):
         yc = 30 * math.sin(math.radians(i)) + yt
         glVertex2f(xc, yc)
     glEnd()
+    glBegin(GL_LINES)
+    glVertex2f(0, 0)
+    glVertex2f(xt, yt)
+    glEnd()
     glFlush()
 
 
@@ -33,8 +37,8 @@ def animate(value):
     glutPostRedisplay()
     glutTimerFunc(int(1000 / 60), animate, 0)
     theta = theta + 1
-    x = 40 * math.sin(math.radians(theta))
-    y = -40 * math.cos(math.radians(theta))
+    x = 100 * math.sin(math.radians(theta))
+    y = -100 * math.cos(math.radians(theta))
 
 
 def display():
