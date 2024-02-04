@@ -31,7 +31,7 @@ def animate(value):
     else:
         X = -200
     glutPostRedisplay()  # Request a redraw to trigger the animation
-    glutTimerFunc(1000, animate, 100)
+    glutTimerFunc(int(1000 / 60), animate, 100)
 
 
 def main():

@@ -16,8 +16,8 @@ def draw():
     glBegin(GL_TRIANGLE_FAN)
     for i in range(1, 360, 1):
         theta = math.radians(i)
-        x = 50 * math.cos(i)
-        y = 50 * math.sin(i)
+        x = 50 * math.cos(theta)
+        y = 50 * math.sin(theta)
         glVertex2f(x, y)
     glEnd()
     glFlush()
