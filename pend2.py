@@ -25,10 +25,6 @@ def circle(xt, yt):
         yc = 30 * math.sin(math.radians(i)) + yt
         glVertex2f(xc, yc)
     glEnd()
-    glBegin(GL_LINES)
-    glVertex2f(0, 0)
-    glVertex2f(xt, yt)
-    glEnd()
     glFlush()
 
 
